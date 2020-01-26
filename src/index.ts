@@ -14,8 +14,6 @@ let users: User[] = [];
 let loading = document.getElementById('loader');
 let table = document.getElementById('table');
 var myForm = document.getElementById('myForm');
-let formData: FormData = new FormData();
-
 
 const errorHandler = () => {
   table ? table.innerHTML = `
