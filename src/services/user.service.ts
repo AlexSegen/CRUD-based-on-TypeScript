@@ -1,4 +1,4 @@
-// import UIkit from 'uikit';
+import UIkit from 'uikit';
 import config from './api.config';
 
 import { User } from '../user.interface'
@@ -19,7 +19,7 @@ const get = async () => {
     throw Error(response.statusText);
 
   } catch (e) {
-    // UIkit.notification(`Error: ${e.message}`);
+    UIkit.notification(`Error: ${e.message}`);
     console.log(e.message);
   }
 
@@ -43,7 +43,7 @@ const post = async (payload: User) => {
     throw Error(response.statusText);
 
   } catch (e) {
-    // UIkit.notification(`Error: ${e.message}`);
+    UIkit.notification(`Error: ${e.message}`);
     console.log(e.message);
   }
 }
@@ -66,7 +66,7 @@ const put = async (payload: User) => {
     throw Error(response.statusText);
 
   } catch (e) {
-    //UIkit.notification(`Error: ${e.message}`);
+    UIkit.notification(`Error: ${e.message}`);
     console.log(e.message);
   }
 }
@@ -84,7 +84,7 @@ const remove = async (identifier: string) => {
 
     throw Error(response.statusText);
   } catch (e) {
-    // UIkit.notification(`Error: ${e.message}`);
+    UIkit.notification(`Error: ${e.message}`);
     console.log(e.message);
   }
 

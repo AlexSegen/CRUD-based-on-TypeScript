@@ -3,9 +3,12 @@ import UIkit from 'uikit';
 import Icons from 'uikit/dist/js/uikit-icons'
 UIkit.use(Icons);
 
-import userService from './services/user.service';
 import './assets/scss/main.scss'
+
+import userService from './services/user.service';
 import { User } from './user.interface'
+
+import { uuidv4 } from './helpers/Utils'
 
 let users: User[] = [];
 let loading = document.getElementById('loader');
@@ -56,20 +59,16 @@ const getUsers = () => {
   });
 }
 
-/* const addUser = () => {
-  loading?.classList.remove('done');
-  let obj: User;
+const addUser = () => {
 
-  formData = new FormData(myForm);
-
-  for (var pair of formData.entries()) {
-    obj[pair[0]] = pair[1]
-  }
+  const form = document.querySelector('form')
+  let obj = Object.values(form).reduce((obj:any,field: any) => { obj[field.name] = field.value; return obj }, {})
 
   if (obj.first_name.length > 0 && obj.last_name.length > 0 && obj.email.length > 0) {
 
+    obj.id = uuidv4();
     obj.active = true;
-
+    
     userService.post(obj).then(data => {
       users.push(data);
       listUsers(users);
@@ -80,8 +79,8 @@ const getUsers = () => {
   } else {
     loading?.classList.add('done');
     UIkit.notification(`Rellene todos los campos`);
-  }
-} */
+  } 
+}
 
 const deleteUser = (identifier: string) => {
   loading?.classList.remove('done');
@@ -89,7 +88,7 @@ const deleteUser = (identifier: string) => {
     users.splice(users.findIndex(i => i.id == identifier), 1);
     listUsers(users);
     loading?.classList.add('done');
-    //UIkit.notification(`Usuario eliminado.`);
+    UIkit.notification(`Usuario eliminado.`);
   }).catch(e => {
     console.log('Error deleting:', e)
   });
@@ -115,7 +114,7 @@ const updateUser = (payload: User) => {
 
 myForm?.addEventListener('submit', e => {
   e.preventDefault();
-  //addUser();
+  addUser();
 });
 
 document.addEventListener('click', (e: any) => {
