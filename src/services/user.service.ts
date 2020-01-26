@@ -1,5 +1,7 @@
-import UIkit from 'uikit';
+// import UIkit from 'uikit';
 import config from './api.config';
+
+import { User } from '../user.interface'
 
 const RESOURCE_NAME = '/users';
 
@@ -17,13 +19,13 @@ const get = async () => {
     throw Error(response.statusText);
 
   } catch (e) {
-    UIkit.notification(`Error: ${e.message}`);
+    // UIkit.notification(`Error: ${e.message}`);
     console.log(e.message);
   }
 
 }
 
-const post = async (payload) => {
+const post = async (payload: User) => {
   try {
     const response = await fetch(config.server.api + RESOURCE_NAME, {
       method: 'post',
@@ -41,12 +43,12 @@ const post = async (payload) => {
     throw Error(response.statusText);
 
   } catch (e) {
-    UIkit.notification(`Error: ${e.message}`);
+    // UIkit.notification(`Error: ${e.message}`);
     console.log(e.message);
   }
 }
 
-const put = async (payload) => {
+const put = async (payload: User) => {
   try {
     const response = await fetch(`${config.server.api}${ RESOURCE_NAME}/${payload.id}`, {
       method: 'PUT',
@@ -64,12 +66,12 @@ const put = async (payload) => {
     throw Error(response.statusText);
 
   } catch (e) {
-    UIkit.notification(`Error: ${e.message}`);
+    //UIkit.notification(`Error: ${e.message}`);
     console.log(e.message);
   }
 }
 
-const remove = async (identifier) => {
+const remove = async (identifier: string) => {
   try {
     const response = await fetch(`${config.server.api}${ RESOURCE_NAME}/${identifier}`, {
       method: 'DELETE'
@@ -82,7 +84,7 @@ const remove = async (identifier) => {
 
     throw Error(response.statusText);
   } catch (e) {
-    UIkit.notification(`Error: ${e.message}`);
+    // UIkit.notification(`Error: ${e.message}`);
     console.log(e.message);
   }
 

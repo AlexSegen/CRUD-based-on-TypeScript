@@ -1,24 +1,21 @@
 // Add your scripts here
 import UIkit from 'uikit';
 import Icons from 'uikit/dist/js/uikit-icons'
-import userService from './services/user.service';
-
-import 'uikit/src/scss/variables.scss'
-import 'uikit/src/scss/uikit.scss'
-
-import './assets/scss/main.scss'
-
 UIkit.use(Icons);
 
-let users = [];
+import userService from './services/user.service';
+import './assets/scss/main.scss'
+import { User } from './user.interface'
+
+let users: User[] = [];
 let loading = document.getElementById('loader');
 let table = document.getElementById('table');
 var myForm = document.getElementById('myForm');
-let formData = new FormData();
+let formData: FormData = new FormData();
 
 
 const errorHandler = () => {
-  table.innerHTML = `
+  table ? table.innerHTML = `
   <tr >
     <td colspan="5">
       <div class="uk-alert-danger" uk-alert>
@@ -26,13 +23,13 @@ const errorHandler = () => {
         <p>Error trying to connect. Please, refresh and try again.</p>
       </div>
     </td>
-  </tr>`;
+  </tr>` : null
 }
 
-const listUsers = data => {
-  table.innerHTML = '';
+const listUsers = (data: User[]) => {
+  table ? table.innerHTML = '' : ''
   for (const i of data) {
-    table.innerHTML += `
+    table ? table.innerHTML += `
         <tr ref="${i.id}">
             <td ref="field" data-field="first_name">${i.first_name}</td>
             <td ref="field" data-field="last_name">${i.last_name}</td>
@@ -43,26 +40,25 @@ const listUsers = data => {
                 <a href="javascript:void(0);"  class="uk-icon-button --edit" uk-icon="pencil" ref="${i.id}"></a>
                 <a href="javascript:void(0);"  class="uk-icon-button --delete" uk-icon="trash" ref="${i.id}"></a>
             </td>
-        </tr>`;
+        </tr>` : null
   }
 };
 
 const getUsers = () => {
-  loading.classList.remove('done');
+  loading?.classList.remove('done');
   userService.get().then(data => {
     users = data;
-    loading.classList.add('done');
+    loading?.classList.add('done');
     listUsers(users);
-  }).finally(() => {
-    loading.classList.add('done');
   }).catch(() => {
+    loading?.classList.add('done');
     errorHandler();
   });
 }
 
-const addUser = () => {
-  loading.classList.remove('done');
-  let obj = {};
+/* const addUser = () => {
+  loading?.classList.remove('done');
+  let obj: User;
 
   formData = new FormData(myForm);
 
@@ -77,58 +73,59 @@ const addUser = () => {
     userService.post(obj).then(data => {
       users.push(data);
       listUsers(users);
+      loading?.classList.add('done');
       UIkit.notification(`Usuario ${data.first_name} agregado.`);
-    }).finally(() => {
-      loading.classList.add('done');
     });
 
   } else {
-    loading.classList.add('done');
+    loading?.classList.add('done');
     UIkit.notification(`Rellene todos los campos`);
   }
-}
+} */
 
-const deleteUser = identifier => {
-  loading.classList.remove('done');
+const deleteUser = (identifier: string) => {
+  loading?.classList.remove('done');
   userService.remove(identifier).then(() => {
     users.splice(users.findIndex(i => i.id == identifier), 1);
     listUsers(users);
-    loading.classList.add('done');
-    UIkit.notification(`Usuario eliminado.`);
+    loading?.classList.add('done');
+    //UIkit.notification(`Usuario eliminado.`);
+  }).catch(e => {
+    console.log('Error updating:', error)
   });
 }
 
-const updateUser = payload => {
-  loading.classList.remove('done');
-  let user = users.find(i => i.id == payload.id);
+const updateUser = (payload: User) => {
+  loading?.classList.remove('done');
+  let user: any = users.find(i => i.id == payload.id);
 
   payload.active = user.active;
 
   return userService.put(payload).then(data => {
 
-    loading.classList.add('done');
+    loading?.classList.add('done');
 
     users[users.findIndex(i => i.id == payload.id)] = data;
 
     listUsers(users);
 
-    UIkit.notification(`Usuario actualizado.`);
+    // UIkit.notification(`Usuario actualizado.`);
   });
 }
 
-myForm.addEventListener('submit', e => {
+myForm?.addEventListener('submit', e => {
   e.preventDefault();
-  addUser();
+  //addUser();
 });
 
-document.addEventListener('click', function (e) {
-  if (e.target.classList.contains('--delete')) {
+document.addEventListener('click', (e: any) => {
+  if (e?.target?.classList?.contains('--delete')) {
     deleteUser(e.target.getAttribute("ref"));
   }
 
   if (e.target.classList.contains('--status')) {
 
-    let user = users.find(i => i.id == e.target.getAttribute("ref"));
+    let user: any = users.find(i => i.id == e.target.getAttribute("ref"));
 
     user.active = !user.active;
 
@@ -148,7 +145,7 @@ document.addEventListener('click', function (e) {
 
   }
   if (e.target.classList.contains('--save')) {
-    let user = {};
+    let user: any = {}
     const elements = e.target.parentElement.parentElement.children;
 
     for (const field of elements) {
