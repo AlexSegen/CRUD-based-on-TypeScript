@@ -1,0 +1,27 @@
+// Add your styles here
+@import "uikit/src/scss/variables.scss";
+@import "uikit/src/scss/uikit.scss";
+
+body {
+  color: #333;
+}
+
+.body-loading {
+  overflow: hidden;
+}
+
+.loading {
+  width: 100%;
+  height: 100vh;
+  background: rgba(#fff, 0.8);
+  min-height: 800px;
+  z-index: 10;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.done {
+    display: none;
+  }
+}
