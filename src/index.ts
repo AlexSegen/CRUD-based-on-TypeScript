@@ -91,7 +91,7 @@ const deleteUser = (identifier: string) => {
     loading?.classList.add('done');
     //UIkit.notification(`Usuario eliminado.`);
   }).catch(e => {
-    console.log('Error updating:', error)
+    console.log('Error deleting:', e)
   });
 }
 
