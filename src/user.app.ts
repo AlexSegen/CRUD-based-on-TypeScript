@@ -65,6 +65,7 @@ const addUser = () => {
       listUsers(users);
       loading?.classList.add('done');
       UIkit.notification(`Usuario ${data.first_name} agregado.`);
+      myForm?.reset();
     });
 
   } else {
